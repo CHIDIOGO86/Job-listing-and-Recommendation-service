@@ -1,0 +1,33 @@
+{
+  "name": "job-listing-and-recommendation-service",
+  "version": "1.0.0",
+  "description": "Scope:  A job listing and recommendation app that helps users find jobs based on their skills and experience.\r .\r High-Level Design: (User download and install the app )Signup and Sign-in (authentication) \r \t\t\tAuthentication  and Authorisation for 2 user Roles (user, admin)",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CHIDIOGO86/Job-listing-and-Recommendation-service.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CHIDIOGO86/Job-listing-and-Recommendation-service/issues"
+  },
+  "homepage": "https://github.com/CHIDIOGO86/Job-listing-and-Recommendation-service#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.8.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "validator": "^13.7.0"
+  }
+}
