@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 const router = express.Router();
 
-const { recommendJobs} = recommendController;
+const { recommendJobs } = recommendController;
 router.route("/recommendedJobs").post(recommendJobs);
 
 module.exports = router;

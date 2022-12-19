@@ -4,8 +4,9 @@ const ErrorHandler = require("../helpers/userErrorHandler");
 
 exports.updateUser = async (request, response) => {
   try {
-    const id = request.params.id;
-    const findUser = await User.findById(id);
+    const user = request.user
+    const userId = user._id
+    const findUser = await User.findById(userId);
     findUser.name = request.body.name;
     findUser.email = request.body.email;
     await findUser.save();

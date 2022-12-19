@@ -21,8 +21,7 @@ const userJobSchema = mongoose.Schema({
 },
 {
     timestamps: true
-}
-    )
+})
 
 const UserJob = mongoose.model("userJob", userJobSchema);
 

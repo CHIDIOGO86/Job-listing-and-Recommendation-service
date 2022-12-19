@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const path = require("path");
 dotenv.config({ path: "./config.env" });
 const UserRouter = require("./src/routes/userRoute");
+const userJobRoute = require("./src/routes/userJobRoute");
 // const recommendRouter = require("./src/routes/recommendRoute");
 const authRoutes = require("./src/routes/auth-route");
 const jobRoutes = require("./src/routes/jobRoutes")
@@ -28,6 +29,7 @@ app.use(morgan("dev", { stream: accessLogStream }));
 app.use("/api/v1/auths", authRoutes);
 app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/jobs", jobRoutes)
+app.use("/api/v1/userjobs", userJobRoute)
 // app.use("/api/v1/recommendations", recommendRouter);
 
 

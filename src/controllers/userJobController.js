@@ -2,7 +2,7 @@ const { application } = require("express")
 const { response } = require("../../app")
 const { castObject } = require("../models/userJobModel")
 const UserJob = require ("../models/userJobModel")
-const Job = require ("../models/userJobModel")
+const Job = require ("../models/jobModel")
 exports.createUserJob = async (req, res) => {
     try{
         const { userId, jobId } =  req.body
@@ -63,4 +63,19 @@ exports.getUserJob = async (req, res) =>{
 }catch(error){
     return res.status(400).json(error.message)
 }
+};
+
+
+exports.deleteUserJob = async (req, res) =>{
+    try{
+        const { id } = req.query
+    const userJob = await UserJob.findByIdAndDelete(id)
+    return res.status(200).json({
+        status: true,
+        message: "userJob deleted successfully",
+        userJobDeleted: userJob
+    })
+}catch(error){
+    return res.status(400).json(error.message)
 }
+};

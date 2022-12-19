@@ -8,7 +8,7 @@ const router = express.Router();
 
 const  { createUserJob, updateUserJob, getUserJob, deleteUserJob } = userJobController;
 
-router.route("/").post(auth, checkUser("admin"), createUserJob).delete(auth, deleteUserJob);
+router.route("/").post(auth, createUserJob).delete(auth, checkUser("admin"), deleteUserJob);
 
 router.route("/:id").get(auth, getUserJob).put(auth, checkUser("admin"), updateUserJob);
 

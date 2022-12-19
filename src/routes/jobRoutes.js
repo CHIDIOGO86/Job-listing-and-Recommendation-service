@@ -8,8 +8,8 @@ const router = express.Router();
 
 const { createJob, updateJob, getOneJob, getAllJob, deleteJob } = JobController;
 
-router.route("/").post(auth, checkUser("admin"), createJob).get(auth, getAllJob).delete(auth, deleteJob);
+router.route("/").post(auth, checkUser("admin"), createJob).get(auth, getAllJob).delete(auth, checkUser("admin"), deleteJob);
 
-router.route("/:id").get(auth, getOneJob).put(auth, updateJob);
+router.route("/:id").get(getOneJob).put(auth, updateJob);
 
 module.exports = router;

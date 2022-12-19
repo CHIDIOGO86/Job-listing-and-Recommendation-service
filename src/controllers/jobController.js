@@ -36,7 +36,7 @@ const dirPath = path.join(__dirname, "/public");
 exports.createJob = async (request, response) => {
   try {
     const { title, description, location, jobType, keywords } = request.body;
-    const newJob = new Job({ title, description,location, jobType, keywords });
+    const newJob = new Job({ title, description, location, jobType, keywords });
     await newJob.save();
     return response.status(201).send({
       status: true,
@@ -53,10 +53,8 @@ exports.updateJob = async (request, response) => {
   try{
     const id = request.params.id;
     const findJob = await Job.findById(id);
-    findJob.title = request.body.title;
     findJob.description = request.body.description;
     findJob.location = request.body.location;
-    findJob.jobType = request.body.jobType;
     findJob.keywords = request.body.keywords;
     await findJob.save();
     return response.status(200).send({

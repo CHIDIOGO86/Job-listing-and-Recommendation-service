@@ -14,12 +14,11 @@ const maxAge = 3 * 24 * 60 * 60;
 //Creat account for user
 exports.signUp = async (req, res) => {
   try {
-    const { name, email, password, confirmPassword, skill, experience, role } = req.body;
+    const { name, email, password, confirmPassword, skill, experience, location, role } = req.body;
     if (password !== confirmPassword) {
       res.status(400).json({ message: "Passwords do not match" });
     }
     const salt = await bcrypt.genSalt(10);
-
     if (password === confirmPassword && password.length > 5) {
       const hash = await bcrypt.hash(password, salt);
       const user = await User.create({
@@ -29,6 +28,7 @@ exports.signUp = async (req, res) => {
         confirmPassword: hash,
         skill,
         experience,
+        location,
         role,
       });
 
@@ -51,8 +51,7 @@ exports.signUp = async (req, res) => {
       .status(400)
       .json({ message: "Password is less than 6 characters" });
   } catch (error) {
-    const errors = handleError(error);
-    res.status(404).json({ errors });
+    res.status(404).json( error.message );
   }
 };
 
@@ -107,9 +106,9 @@ exports.logout = async (req, res) => {
   }
 };
 
-const requestPasswordReset = async (email) => {
+const requestPasswordReset = async (req) => {
   try {
-    const user = await User.findOne({email});
+    const user = await User.findOne({ email : req.body.email });
 
     if (!user) return { message: "User does not exist" };
     let token = await Token.findOne({ userId: user._id });
@@ -122,32 +121,32 @@ const requestPasswordReset = async (email) => {
       createdAt: Date.now(),
     }).save();
 
-    const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/auths/reset-password/${resetToken}`;
+    const resetUrl = `${req.protocol}://${req.get("host")}/api/v1/auths/resetpassword/${resetToken}`;
     const message = `To reset your password click on the link below to submit your new password: ${resetUrl}`;
 
-    let mail = nodemailer.createTransport({
-        service : 'gmail',
-        auth : {
-            user : process.env.HOST_EMAIL,
-            pass : process.env.EMAIL_PASS
-        }
-    });
+    // let mail = nodemailer.createTransport({
+    //     service : 'gmail',
+    //     auth : {
+    //         user : process.env.HOST_EMAIL,
+    //         pass : process.env.EMAIL_PASS
+    //     }
+    // });
 
-    let mailOptions = {
-        from : process.env.HOST_EMAIL,
-        to : user.email,
-        message,
-        subject : "Your password reset token. It's valid for 10mins",
-        text : resetUrl
-    }
+    // let mailOptions = {
+    //     from : process.env.HOST_EMAIL,
+    //     to : user.email,
+    //     message,
+    //     subject : "Your password reset token. It's valid for 10mins",
+    //     text : resetUrl
+    // }
     
-    mail.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent : ' + info.response);
-        }
-    })
+    // mail.sendMail(mailOptions, function(error, info) {
+    //     if (error) {
+    //         console.log(error);
+    //     } else {
+    //         console.log('Email sent : ' + info.response);
+    //     }
+    // })
 
 
     return ({
@@ -158,7 +157,7 @@ const requestPasswordReset = async (email) => {
 
 
   } catch (error) {
-    return res.status(400).json({ message: error }); //return
+    return res.status(400).json(error.message); //return
   }
 };
 
@@ -187,7 +186,7 @@ const resetPassword = async (userId, token, password) => {
 exports.resetPasswordRequestController = async (req, res, next) => {
   try {
     const requestPasswordResetService = await requestPasswordReset(
-      req.body.email
+      req
     );
     return res.status(200).json({ requestPasswordResetService });
   } catch (error) {
@@ -203,12 +202,12 @@ exports.resetPasswordController = async (req, res, next) => {
       req.body.password,
       req.body.confirmPassword
     );
-    if (password !== confirmPassword) {
-        res.status(400).json({ message: "Passwords do not match" });
+    if (req.body.password !== req.body.confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
     }
     return res.status(200).json(resetPasswordService); 
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(400).json({ "message": error });
   }
 };
 

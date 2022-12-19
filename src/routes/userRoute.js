@@ -8,8 +8,8 @@ const router = express.Router();
 
 const { updateUser, getUser, getAllUsers, deleteUser } = UserController;
 
-router.route("/user").get(auth, getAllUsers).delete(auth, deleteUser);
+router.route("/user").get(auth, checkUser("admin"), getAllUsers).delete(auth, checkUser("admin"), deleteUser).put(auth, updateUser);
 
-router.route("/user/:id").get(auth, getUser).put(auth, updateUser);
+router.route("/user/:id").get(auth, getUser);
 
 module.exports = router;

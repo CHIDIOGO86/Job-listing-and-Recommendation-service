@@ -14,7 +14,7 @@ exports.recommendJobs = async (req, res) => {
               jobRecommended: findBackEnd
           })
         } else {
-            return res.status(400).send({
+            return res.status(404).send({
                 status: true,
                 message: "Nothing to recommend yet",
             })
