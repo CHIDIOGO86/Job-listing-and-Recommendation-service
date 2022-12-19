@@ -43,7 +43,6 @@ Education & Years of experience
 Remote/hybrid/on-site
 These details will be collected for each job and stored to the database
 
-Cart: (User)
 UserID
 Job category 
 job type 
@@ -53,7 +52,7 @@ job type
 
 Order/jobs applied for: (User)
 UserID
-User Cart
+
 
 Recommendation
 Based on skills
