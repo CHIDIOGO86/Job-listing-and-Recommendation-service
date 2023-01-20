@@ -110,17 +110,22 @@ exports.getAllJob = async (request, response) => {
 };
 
 exports.deleteJob = async (request, response) => {
-  const id = request.params.id;
-  const findJob = await Job.findByIdAndDelete(id);
-  if (findJob) {
-    return response.status(200).send({
-      status: true,
-      message: "Job deleted successfully",
-    });
-  } else {
-    return response.status(409).send({
-      status: false,
-      message: "Job not found",
-    });
+  try {
+  const { id } = request.headers;
+    const findJob = await Job.findByIdAndDelete(id);
+    if (findJob) {
+      return response.status(200).send({
+        status: true,
+        message: "Job deleted successfully",
+      });
+    } else {
+      return response.status(404).send({
+        status: false,
+        message: "Job not found",
+      });
+    }
+  } catch (error) {
+    return response.status(400).send(error.message)
   }
+
 };
